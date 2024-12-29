@@ -1,16 +1,15 @@
-"use client"
-import React from 'react';
-import { Bell, User, Menu } from 'lucide-react';
+"use client";
+import React from "react";
+import { Bell, User, Menu } from "lucide-react";
 import { useSideBarHook } from "@/hooks/sidebar/sidebarHook";
 
-
 export default function Header() {
-    const { isOpen, toggleSidebar } = useSideBarHook();
+  const { isOpen, toggleSidebar } = useSideBarHook();
   return (
     <header
-      className={`h-16 bg-white border-b fixed top-0 z-10 transition-all duration-300 ${
-        isOpen ? "left-64 right-0" : "left-0 right-0"
-      }`}
+      className={`h-16 bg-white border-b fixed top-0 z-10 px-4 transition-all duration-300 ${
+        isOpen ? "left-64" : "left-0"
+      } right-0`}
     >
       <div className="h-full px-4 flex items-center justify-between">
         <button
@@ -42,4 +41,4 @@ export default function Header() {
       </div>
     </header>
   );
-}   
+}

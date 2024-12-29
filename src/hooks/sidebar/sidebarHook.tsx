@@ -1,12 +1,12 @@
-    "use client"
-    import { create } from "zustand";
+"use client";
+import { create } from "zustand";
 
-    interface SidebarState {
-        isOpen: boolean;
-        toggleSidebar: () => void;
-    }
+interface SidebarState {
+  isOpen: boolean;
+  toggleSidebar: () => void;
+}
 
-    export const useSideBarHook = create<SidebarState>((set) => ({
-        isOpen: true,
-        toggleSidebar: () => set((state) => ({ isOpen: !state.isOpen })),
-    }));
+export const useSideBarHook = create<SidebarState>((set) => ({
+  isOpen: window.innerWidth >= 1280,
+  toggleSidebar: () => set((state) => ({ isOpen: !state.isOpen })),
+}));
