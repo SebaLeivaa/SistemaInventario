@@ -1,10 +1,8 @@
 "use client";
 import React from "react";
 import { Bell, User, Menu } from "lucide-react";
-import { useSideBarHook } from "@/hooks/sidebar/sidebarHook";
 
-export default function Header() {
-  const { isOpen, toggleSidebar } = useSideBarHook();
+export default function Header({ isOpen, toggleSidebar } : { isOpen: boolean, toggleSidebar: () => void }) {
   return (
     <header
       className={`h-16 bg-white border-b fixed top-0 z-10 px-4 transition-all duration-300 ${

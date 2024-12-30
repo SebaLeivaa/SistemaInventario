@@ -4,7 +4,9 @@ import { ChevronDown } from "lucide-react";
 import { SidebarItemProps } from "@/config/sidebarMenuItems";
 
 export default function SidebarItem({ item }: { item: SidebarItemProps }) {
+  // Estado para controlar si los submenús están abiertos o cerrados
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
+  // Función para abrir o cerrar los submenús
   const toggleMenu = (title: string) => {
     setOpenMenus((prev) => ({
       ...prev,

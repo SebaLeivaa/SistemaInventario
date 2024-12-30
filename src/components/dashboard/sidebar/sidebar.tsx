@@ -1,41 +1,37 @@
 "use client";
-import React, { use, useEffect, useRef, useState, useCallback } from "react";
-import { ChevronDown } from "lucide-react";
+import React, { useEffect, useRef, useCallback } from "react";
 import { sidebarMenuItems } from "@/config/sidebarMenuItems";
-import { useSideBarHook } from "@/hooks/sidebar/sidebarHook";
 import SidebarItem from "./sidebarItem";
 
-export default function Sidebar() {
-  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
-  const { isOpen, toggleSidebar } = useSideBarHook();
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== "undefined" ? window.innerWidth <= 1280 : false
-  );
+export default function Sidebar({ isOpen, toggleSidebar }: { isOpen: boolean; toggleSidebar: () => void }) {
+  // Referencia al sidebar
   const sidebarRef = useRef<HTMLDivElement>(null);
 
+  // Cierra el sidebar al hacer clic fuera de él
   const handleClickOutside = useCallback(
     (event: MouseEvent) => {
       if (
         sidebarRef.current &&
         !sidebarRef.current.contains(event.target as Node) &&
         isOpen &&
-        isMobile
+        window.innerWidth <= 1280 // Verifica directamente si es "móvil"
       ) {
         toggleSidebar();
       }
     },
-    [isMobile, isOpen, toggleSidebar]
+    [isOpen, toggleSidebar]
   );
 
+  // Maneja el redimensionamiento de la ventana
   const handleResize = useCallback(() => {
-    const newIsMobile = window.innerWidth <= 1280;
-    if (isMobile !== newIsMobile) {
-      setIsMobile(newIsMobile);
-      if (newIsMobile && isOpen) {
-        toggleSidebar();
-      }
+    if (window.innerWidth > 1280 && !isOpen) {
+      // Asegura que el sidebar esté abierto en pantallas grandes
+      toggleSidebar();
+    } else if (window.innerWidth <= 1280 && isOpen) {
+      // Asegura que el sidebar esté cerrado en pantallas pequeñas
+      toggleSidebar();
     }
-  }, [isMobile, toggleSidebar]);
+  }, [isOpen, toggleSidebar]);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
