@@ -56,7 +56,7 @@ export const sidebarMenuItems: SidebarItemProps[] = [
     icon: <Store />,
     subItems: [
       { title: "Crear Compra", path: "/purchases/create" },
-      { title: "Modificar COmpra", path: "/purchases/modify" },
+      { title: "Modificar Compra", path: "/purchases/modify" },
       { title: "Buscar Compra", path: "/purchases/search" },
       { title: "Visualizar Compra", path: "/purchases" },
     ],

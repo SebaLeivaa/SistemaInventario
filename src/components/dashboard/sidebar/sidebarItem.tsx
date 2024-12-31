@@ -1,23 +1,21 @@
 "use client";
-import React, { use, useEffect, useRef, useState, useCallback } from "react";
+import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { SidebarItemProps } from "@/config/sidebarMenuItems";
 
-export default function SidebarItem({ item }: { item: SidebarItemProps }) {
-  // Estado para controlar si los submenús están abiertos o cerrados
-  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
-  // Función para abrir o cerrar los submenús
+export default function SidebarItem({ item, isOpenMenu, handleToggleMenu }: { item: SidebarItemProps, isOpenMenu: boolean, handleToggleMenu: (title: string) => void }) {
+  // Estado para controlar qué menú está abierto actualmente
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+
+  // Función para manejar la apertura y cierre del menú
   const toggleMenu = (title: string) => {
-    setOpenMenus((prev) => ({
-      ...prev,
-      [title]: !prev[title],
-    }));
+    setOpenMenu((prev) => (prev === title ? null : title)); // Si el menú está abierto, ciérralo. Si no, ábrelo.
   };
 
   return (
     <div key={item.title} className="mb-2">
       <button
-        onClick={() => toggleMenu(item.title)}
+        onClick={() => handleToggleMenu(item.title)}
         className="flex w-full items-center px-4 py-2 text-sm justify-between font-medium rounded-md text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
       >
         <span className="flex items-center gap-4">
@@ -27,12 +25,12 @@ export default function SidebarItem({ item }: { item: SidebarItemProps }) {
         {item.subItems && (
           <ChevronDown
             className={`h-4 w-4 transition-transform duration-200 ${
-              openMenus[item.title] ? "rotate-180" : ""
+              isOpenMenu ? "rotate-180" : ""
             }`}
           />
         )}
       </button>
-      {item.subItems && openMenus[item.title] && (
+      {item.subItems && isOpenMenu && (
         <div className="bg-gray-900">
           {item.subItems.map((subItem) => (
             <a

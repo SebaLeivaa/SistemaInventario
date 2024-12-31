@@ -1,11 +1,22 @@
 "use client";
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import { sidebarMenuItems } from "@/config/sidebarMenuItems";
 import SidebarItem from "./sidebarItem";
 
 export default function Sidebar({ isOpen, toggleSidebar }: { isOpen: boolean; toggleSidebar: () => void }) {
   // Referencia al sidebar
   const sidebarRef = useRef<HTMLDivElement>(null);
+
+  // Estado para controlar qué menú está abierto actualmente
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+
+  // Función para manejar el estado de los submenús
+  const handleToggleMenu = useCallback(
+    (title: string) => {
+      setOpenMenu((prev) => (prev === title ? null : title));
+    },
+    []
+  );
 
   // Cierra el sidebar al hacer clic fuera de él
   const handleClickOutside = useCallback(
@@ -61,7 +72,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: { isOpen: boolean; to
       </div>
       <nav className="mt-5 px-2">
         {sidebarMenuItems.map((item) => (
-          <SidebarItem key={item.title} item={item} />
+          <SidebarItem key={item.title} item={item} isOpenMenu={openMenu === item.title} handleToggleMenu={handleToggleMenu} />
         ))}
       </nav>
     </aside>
